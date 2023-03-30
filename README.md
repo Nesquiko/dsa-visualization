@@ -1,4 +1,4 @@
-# DSA Visualization
+# Rust Project
 
 Project for Rust Course on FIIT STU.
 
@@ -11,39 +11,22 @@ Project for Rust Course on FIIT STU.
 
 ### Idea
 
-GUI for visualizing different data structures and algorithms. We hope to learn
-how to implement different data structures and algorithms in Rust, and also
-how to build GUI applications in Rust, either in web browser through WASM,
-or native ones.
+Implement, test and benchmark a doubly linked list in Rust. As mentioned by our
+tutors, implementing this data structure isn't trivial, so we want to prove to
+ourselves, that we can do it!
+
+We hope to learn how to implement this data structure in Rust and thanks to
+that we will have a better understanding of Rust. Also we hope to learn how to
+properly test and benchmark code in Rust.
 
 ### Requirements
 
-- Implementation of data structures:
-  - Linked List
-  - Hash Table
-  - Graph
-- Implementation of algorithms:
-  - Depth-First-Search
-  - Dijkstra's algorithm
-- Visualize data structures and algorithms with a GUI
+- Implement doubly linked list
+- Test the implementation
+- Benchmark the doubly linked list in various scenarious
 
-### Possibly used Crates
+### Notice
 
-For the DSA part of our project, no crates are needed, however for the GUI part
-there are many crates that at first glance look like what we need.
-
-For now [egui](https://github.com/emilk/egui) was choosen, because there were
-couple public examples we think will help us with our project. Also it will be
-built into a WASM binary, because we can easily deploy this binary on Githup pages
-for free and anyone can open the project and try it out.
-
-#### Candidates for the GUI:
-
-We would like to hear what our tutors think about these candidates, and gave us
-feedback, which would help us choose which crate to use.
-
-- [Leptos](https://github.com/leptos-rs/leptos)
-- [egui](https://github.com/emilk/egui)
-- [Dioxus](https://github.com/DioxusLabs/dioxus/)
-- [Yew](https://github.com/yewstack/yew)
-- [Iced](https://github.com/iced-rs/iced)
+We are open to any recommendation, critique and feedback. We want to communicate
+with our tutors on weekly basis. We will show them our progress and discuss
+any shortcommings, details, and possible extensions of our project.
