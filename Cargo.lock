@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "rust-project-fiit-stu"
+name = "lists"
 version = "0.1.0"
