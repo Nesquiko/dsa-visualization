@@ -30,6 +30,22 @@ impl<T> LinkedList<T> {
         })
     }
 
+    pub fn get(&self, index: usize) -> Option<&T> {
+        let mut cur = self.head.as_deref();
+        for _ in 0..index {
+            cur = cur.and_then(|n| n.next.as_deref());
+        }
+        cur.map(|n| &n.val)
+    }
+
+    pub fn get_mut(&mut self, index: usize) -> Option<&mut T> {
+        let mut cur = self.head.as_deref_mut();
+        for _ in 0..index {
+            cur = cur.and_then(|n| n.next.as_deref_mut());
+        }
+        cur.map(|n| &mut n.val)
+    }
+
     pub fn peek(&self) -> Option<&T> {
         self.head.as_ref().map(|n| &n.val)
     }

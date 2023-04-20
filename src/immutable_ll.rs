@@ -31,6 +31,14 @@ impl<T> ImmutableLinkedList<T> {
         }
     }
 
+    pub fn get(&self, index: usize) -> Option<&T> {
+        let mut cur = self.head.as_deref();
+        for _ in 0..index {
+            cur = cur.and_then(|n| n.next.as_deref());
+        }
+        cur.map(|n| &n.val)
+    }
+
     pub fn head(&self) -> Option<&T> {
         self.head.as_ref().map(|n| &n.val)
     }
