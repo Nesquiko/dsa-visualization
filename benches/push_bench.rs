@@ -1,8 +1,9 @@
 use criterion::{criterion_group, criterion_main, Criterion};
 use rust_project_fiit_stu::{dll, immutable_ll, immutable_thread_safe_ll, ll};
 
-fn bench_vec_vs_ll(c: &mut Criterion) {
+fn bench_push(c: &mut Criterion) {
     c.bench_function("Vec", |b| b.iter(|| vec()));
+    c.bench_function("Std LL", |b| b.iter(|| std_ll()));
     c.bench_function("LL", |b| b.iter(|| ll()));
     c.bench_function("Immutable LL", |b| b.iter(|| immutable_ll()));
     c.bench_function("Immutable Thread Safe LL", |b| {
@@ -11,13 +12,20 @@ fn bench_vec_vs_ll(c: &mut Criterion) {
     c.bench_function("DLL", |b| b.iter(|| dll()));
 }
 
-criterion_group!(benches, bench_vec_vs_ll);
+criterion_group!(benches, bench_push);
 criterion_main!(benches);
 
 fn vec() {
     let mut vec = Vec::new();
     for i in 0..1000000 {
         vec.push(i);
+    }
+}
+
+fn std_ll() {
+    let mut std_ll = std::collections::LinkedList::new();
+    for i in 0..1000000 {
+        std_ll.push_back(i);
     }
 }
 
