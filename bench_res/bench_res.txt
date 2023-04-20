@@ -1,0 +1,18 @@
+Push/Vec                time:   [102.50 µs 102.56 µs 102.62 µs]
+Push/Std LL             time:   [1.3115 ms 1.3127 ms 1.3138 ms]
+Push/LL                 time:   [1.3700 ms 1.3718 ms 1.3735 ms]
+Push/Immutable LL       time:   [1.3971 ms 1.3996 ms 1.4022 ms]
+Push/Thread Safe LL     time:   [3.2834 ms 3.2848 ms 3.2862 ms]
+Push/DLL                time:   [2.4747 ms 2.4806 ms 2.4863 ms]
+
+Pop/Vec                 time:   [17.683 µs 17.806 µs 18.004 µs]
+Pop/Std LL              time:   [609.53 µs 610.92 µs 612.30 µs]
+Pop/LL                  time:   [647.36 µs 649.08 µs 651.15 µs]
+Pop/Immutable LL        time:   [859.51 µs 862.25 µs 865.72 µs]
+Pop/Thread Safe LL      time:   [2.7012 ms 2.7036 ms 2.7065 ms]
+Pop/DLL                 time:   [1.2845 ms 1.2869 ms 1.2893 ms]
+
+Get/Vec                 time:   [171.08 ps 171.13 ps 171.18 ps]
+Get/LL                  time:   [97.697 µs 101.26 µs 104.83 µs]
+Get/Immutable LL        time:   [152.33 µs 153.23 µs 154.13 µs]
+Get/Thread Safe LL      time:   [142.11 µs 142.84 µs 143.57 µs]
