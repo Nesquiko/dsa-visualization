@@ -1,7 +1,7 @@
 use criterion::{criterion_group, criterion_main, BatchSize, Criterion, SamplingMode};
 use rust_project_fiit_stu::{dll, immutable_ll, immutable_thread_safe_ll, ll};
 
-criterion_group!(benches, bench_push, bench_pop);
+criterion_group!(benches, bench_push, bench_pop, bench_get);
 criterion_main!(benches);
 
 const N: usize = 100000;
@@ -195,4 +195,49 @@ fn bench_pop(c: &mut Criterion) {
             BatchSize::SmallInput,
         );
     });
+}
+
+fn bench_get(c: &mut Criterion) {
+    let mut group = c.benchmark_group("Get");
+    group.sampling_mode(SamplingMode::Flat);
+
+    group.bench_function("Vec", |b| {
+        let mut v = Vec::new();
+        for i in 0..N {
+            v.push(i);
+        }
+
+        b.iter(|| v.get(N / 2))
+    });
+
+    // STD LinkedList does not support indexing
+
+    group.bench_function("LL", |b| {
+        let mut ll = ll::LinkedList::new();
+        for i in 0..N {
+            ll.push(i);
+        }
+
+        b.iter(|| ll.get(N / 2))
+    });
+
+    group.bench_function("Immutable LL", |b| {
+        let mut immutable_ll = immutable_ll::ImmutableLinkedList::new();
+        for i in 0..N {
+            immutable_ll = immutable_ll.prepend(i);
+        }
+
+        b.iter(|| immutable_ll.get(N / 2))
+    });
+
+    group.bench_function("Thread Safe LL", |b| {
+        let mut immutable_thread_safe_ll = immutable_thread_safe_ll::ImmutableLinkedList::new();
+        for i in 0..N {
+            immutable_thread_safe_ll = immutable_thread_safe_ll.prepend(i);
+        }
+
+        b.iter(|| immutable_thread_safe_ll.get(N / 2))
+    });
+
+    // DoublyLinkedList does not support indexing
 }
