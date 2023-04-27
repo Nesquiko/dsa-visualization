@@ -11,5 +11,9 @@ edition = "2021"
 criterion = "0.3"
 
 [[bench]]
-name = "ll_bench"
+name = "standard_ops"
+harness = false
+
+[[bench]]
+name = "big_data"
 harness = false
