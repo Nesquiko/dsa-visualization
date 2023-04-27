@@ -1,7 +1,7 @@
 use criterion::{criterion_group, criterion_main, BatchSize, Criterion, SamplingMode};
 use rust_project_fiit_stu::{dll, immutable_ll, immutable_thread_safe_ll, ll};
 
-criterion_group!(benches, bench_push, bench_pop, bench_get);
+criterion_group!(benches, bench_push, bench_pop, bench_get, bench_big_data);
 criterion_main!(benches);
 
 const N: usize = 100000;
@@ -240,4 +240,82 @@ fn bench_get(c: &mut Criterion) {
     });
 
     // DoublyLinkedList does not support indexing
+}
+fn bench_big_data(c: &mut Criterion) {
+    let n = 1000;
+    let mut group = c.benchmark_group("BigData");
+    let big_string = "a".repeat(10_000);
+    group.sampling_mode(SamplingMode::Flat);
+
+    group.bench_function("Vec", |b| {
+        b.iter_batched(
+            || Vec::new(),
+            |mut v| {
+                for _ in 0..n {
+                    v.push(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
+
+    group.bench_function("Std LL", |b| {
+        b.iter_batched(
+            || std::collections::LinkedList::new(),
+            |mut std_ll| {
+                for _ in 0..n {
+                    std_ll.push_front(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
+
+    group.bench_function("LL", |b| {
+        b.iter_batched(
+            || ll::LinkedList::new(),
+            |mut ll| {
+                for _ in 0..n {
+                    ll.push(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
+
+    group.bench_function("Immutable LL", |b| {
+        b.iter_batched(
+            || immutable_ll::ImmutableLinkedList::new(),
+            |mut immutable_ll| {
+                for _ in 0..n {
+                    immutable_ll = immutable_ll.prepend(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
+
+    group.bench_function("Thread Safe LL", |b| {
+        b.iter_batched(
+            || immutable_thread_safe_ll::ImmutableLinkedList::new(),
+            |mut immutable_thread_safe_ll| {
+                for _ in 0..n {
+                    immutable_thread_safe_ll = immutable_thread_safe_ll.prepend(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
+
+    group.bench_function("DLL", |b| {
+        b.iter_batched(
+            || dll::DoublyLinkedList::new(),
+            |mut dll| {
+                for _ in 0..n {
+                    dll.push_front(big_string.clone());
+                }
+            },
+            BatchSize::SmallInput,
+        );
+    });
 }
