@@ -1,0 +1,49 @@
+BigData-Push/Vec        time:   [2.1401 ms 2.1428 ms 2.1461 ms]
+BigData-Push/Std LL     time:   [378.42 µs 380.46 µs 382.85 µs]
+BigData-Push/LL         time:   [382.14 µs 383.76 µs 385.50 µs]
+BigData-Push/Immutable LL
+                        time:   [360.37 µs 362.89 µs 365.59 µs]
+BigData-Push/Thread Safe LL
+                        time:   [362.19 µs 364.39 µs 366.75 µs]
+BigData-Push/DLL        time:   [372.43 µs 374.79 µs 377.32 µs]
+
+BigData-Pop/Vec         time:   [118.14 µs 118.98 µs 120.37 µs]
+BigData-Pop/Std LL      time:   [158.41 µs 159.87 µs 161.64 µs]
+BigData-Pop/LL          time:   [165.19 µs 166.26 µs 167.81 µs]
+BigData-Pop/Immutable LL
+                        time:   [162.02 µs 163.00 µs 164.47 µs]
+BigData-Pop/Thread Safe LL
+                        time:   [178.52 µs 179.49 µs 180.85 µs]
+BigData-Pop/DLL         time:   [167.50 µs 168.46 µs 169.73 µs]
+
+BigData-Get/Vec         time:   [171.00 ps 171.08 ps 171.17 ps]
+BigData-Get/LL          time:   [595.21 ns 613.95 ns 632.70 ns]
+BigData-Get/Immutable LL
+                        time:   [1.0489 µs 1.0678 µs 1.0853 µs]
+BigData-Get/Thread Safe LL
+                        time:   [1.0665 µs 1.0842 µs 1.1006 µs]
+
+StandardOps-Push/Vec    time:   [107.94 µs 108.09 µs 108.28 µs]
+StandardOps-Push/Std LL time:   [1.2624 ms 1.2645 ms 1.2671 ms]
+StandardOps-Push/LL     time:   [1.2280 ms 1.2370 ms 1.2503 ms]
+StandardOps-Push/Immutable LL
+                        time:   [1.5577 ms 1.5609 ms 1.5646 ms]
+StandardOps-Push/Thread Safe LL
+                        time:   [3.5091 ms 3.5129 ms 3.5173 ms]
+StandardOps-Push/DLL    time:   [2.4434 ms 2.4491 ms 2.4550 ms]
+
+StandardOps-Pop/Vec     time:   [15.580 µs 15.670 µs 15.792 µs]
+StandardOps-Pop/Std LL  time:   [680.14 µs 681.26 µs 682.39 µs]
+StandardOps-Pop/LL      time:   [578.88 µs 583.41 µs 589.80 µs]
+StandardOps-Pop/Immutable LL
+                        time:   [751.52 µs 754.55 µs 759.41 µs]
+StandardOps-Pop/Thread Safe LL
+                        time:   [2.8777 ms 2.8979 ms 2.9207 ms]
+StandardOps-Pop/DLL     time:   [1.3760 ms 1.3786 ms 1.3816 ms]
+
+StandardOps-Get/Vec     time:   [170.96 ps 171.04 ps 171.10 ps]
+StandardOps-Get/LL      time:   [97.449 µs 100.94 µs 104.41 µs]
+StandardOps-Get/Immutable LL
+                        time:   [140.91 µs 141.60 µs 142.29 µs]
+StandardOps-Get/Thread Safe LL
+                        time:   [148.83 µs 149.69 µs 150.55 µs]
