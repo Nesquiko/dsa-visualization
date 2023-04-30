@@ -1,0 +1,140 @@
+\documentclass[11pt,twoside,a4paper]{article}
+
+\usepackage[USenglish]{babel}
+\usepackage[IL2]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{url} 
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{float}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+
+\raggedbottom 
+
+\oddsidemargin=0cm 
+\evensidemargin=0cm
+\textwidth=16.5cm 
+\pagestyle{headings}
+
+\title{Rust and Linked Lists}
+
+\author{Martin Sivák, Lukáš Častven\\[2pt]
+	{\small Slovenská technická univerzita v Bratislave}\\
+	{\small Fakulta informatiky a informačných technológií}\\
+	{\small \texttt{xcastven@stuba.sk}}
+	}
+
+\date{\small 1 May 2023}
+
+\begin{document}
+\pagestyle{plain}
+
+\maketitle
+\tableofcontents
+
+\section{Idea}
+
+Linked lists are data structures heavily used for explaining key computer science
+concepts to new students in this field and are very popular in academic environments.
+They are trivial to implement and have good properties, at least in theory.
+
+However when you want to implement them in Rust, the triviality is quickly lost,
+and as we learned, in the real world, linked lists generally suck (there are few
+cases when they can be good, but these are rare).
+
+\section{Requirements}
+
+\subsection*{Learn how to implement Linked List}
+
+Based on feedback from our tutors, we learned that implementing linked lists
+in Rust isn't as trivial as in other languages. This is due to a fact that
+Rust likes all of the memory to have one clear owner \cite{ycombinatorWritingLinked}.
+With this statement we mean safe Rust likes that, of course we can always use
+unsafe Rust, but then we don't have the benefits that safe Rust gives us.
+
+There is even a whole book about linked lists implementations in Rust. This
+book walks through different kinds of linked lists and shows the reader how
+to implement them in Rust, and also shows the reader how hard it can be to
+write these lists in safe Rust. \cite{rustunofficialIntroductionLearning}
+
+\subsection*{Implement different kinds}
+
+After we understand why a basic linked list is one of the Rusts worst nightmares,
+we will implement different kinds of them, and those are:
+
+\begin{enumerate}
+    \item Basic Linked List
+    \item Immutable Linked List
+    \item Thread safe immutable Linked List
+    \item And the king of them all \textbf{Doubly} Linked List
+\end{enumerate}
+
+\subsection*{Benchmark them in different scenarios}
+
+After our brains have melted from different intricacies of linked lists in Rust,
+we will use Rusts benchmarking library Criterion \cite{docsCriterionRust} to
+see how our implementations compare in various scenarios against the mighty
+Vec and Rusts standard library's Linked List.
+
+\section{How it went}
+
+\subsection*{Learning how to implement linked list}
+
+After the call with our tutors when we decided that we will implement linked
+lists in Rust we still didn't believe that it can be that hard.
+
+But we were horribly wrong. We both started reading the book mentioned before,
+and realized that Rusts borrow checker really likes for memory to have one clear
+owner.
+
+Our learning went something like this
+
+\begin{itemize}
+    \item Hmm, don't put everything on stack, put it in $Box<T>$
+    \item Why can't we move the value? Oh the $Box<T>$ owns it...
+    \item But wait, what if the element is the end of the list?
+    \item Define an enum $Node<T>$ which can be inner element, tail, or nothing.
+    \item Null pointer optimization? Oh we understand, so redefine $Node<T>$ to
+          be an element or nothing.
+    \item Did we just reimplement the $Option<T>$? Yes we did...
+    \item Ok, now set the next as the previous head. What is this
+          \textbf{cannot move out of borrowed content}?
+    \item \textbf{mem::replace}? Sweet Python were are you...
+    \item $Option.take()$? That makes sense (Dunning-Kruger Peak of Mount Stupid)
+    \item Iterators, yeah we want to iterate over our list.
+    \item Lifetime?! How are we supposed to know how long this thing will live?!
+    \item Pff, easy, it's just syntactic sugar, why is it needed?
+    \item That's why it is needed... \emph{Fall down to Dunning-Kruger Valley of Despair}
+\end{itemize}
+
+\subsection*{Implementing different kinds}
+
+After few weeks of reading, testing and finally understanding that there must
+be only one owner of the memory, but the owners can have different ways of
+how to borrow their memory, we implemented these kinds of linked list and gained
+new knowledge:
+
+\begin{enumerate}
+    \item Linked List: Box is a heap allocation which owns the data
+    \item Immutable Linked List: Rc also owns the value but, it has a primitive
+          garbage collection principle of counting how many references are pointing
+          at it
+    \item Thread safe immutable Linked List: Arc is basically the same thing as
+          Rc, but it is atomic, which means it is safe to use in multithreaded environments
+    \item Doubly Linked List: RefCell, as we understood it, basically allows you
+          to apply borrow checkers rules in runtime, however if they are broken,
+          the program panics
+\end{enumerate}
+
+\subsection*{Benchmarking}
+
+\bibliography{sources}
+\bibliographystyle{ieeetr}
+
+\end{document}
