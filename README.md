@@ -30,3 +30,7 @@ properly test and benchmark code in Rust.
 We are open to any recommendation, critique and feedback. We want to communicate
 with our tutors on weekly basis. We will show them our progress and discuss
 any shortcommings, details, and possible extensions of our project.
+
+## Presentation
+
+Our final presentation can be found [here](https://docs.google.com/presentation/d/1_jEjs4xKoDeli7hKPclaof_iUtF4Z8Dpbv7sDvk4o0s/edit?usp=sharing).
