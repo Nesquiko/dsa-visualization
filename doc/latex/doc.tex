@@ -212,6 +212,8 @@ Std::collections::LinkedList and our Doubly Linked List don't support this opera
 In this table we can see how long it took to push 100 $[u64; 10000]$ into a Vec,\\
 std::collections::LinkedList, Linked List, Immutable Linked List, Thread Safe
 Linked List and Doubly Linked List.
+\footnote{All of these times also include the time of cloning the whole array, because
+      when we wanted to create all to be inserted arrays, we got stack overflow error}
 \begin{table}[!h]
       \begin{center}
             \caption{Pop elements}
