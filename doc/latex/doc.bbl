@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{ycombinatorWritingLinked}
+``{W}hy writing a linked list in safe {R}ust is so damned hard | {H}acker {N}ews --- news.ycombinator.com.'' \url{https://news.ycombinator.com/item?id=16442743#:~:text=Yeah%2C%20a%20doubly%2Dlinked%20list,first%20program%20you%20might%20choose.}
+\newblock [Accessed 1-May-2023].
+
+\bibitem{rustunofficialIntroductionLearning}
+``{I}ntroduction - {L}earning {R}ust {W}ith {E}ntirely {T}oo {M}any {L}inked {L}ists --- rust-unofficial.github.io.'' \url{https://rust-unofficial.github.io/too-many-lists/index.html}.
+\newblock [Accessed 1-May-2023].
+
+\bibitem{docsCriterionRust}
+``criterion - {R}ust --- docs.rs.'' \url{https://docs.rs/criterion/latest/criterion/}.
+\newblock [Accessed 1-May-2023].
+
+\end{thebibliography}

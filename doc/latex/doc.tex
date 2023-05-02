@@ -69,10 +69,10 @@ After we understand why a basic linked list is one of the Rusts worst nightmares
 we will implement different kinds of them, and those are:
 
 \begin{enumerate}
-    \item Basic Linked List
-    \item Immutable Linked List
-    \item Thread safe immutable Linked List
-    \item And the king of them all \textbf{Doubly} Linked List
+      \item Basic Linked List
+      \item Immutable Linked List
+      \item Thread safe immutable Linked List
+      \item And the king of them all \textbf{Doubly} Linked List
 \end{enumerate}
 
 \subsection*{Benchmark them in different scenarios}
@@ -96,21 +96,21 @@ owner.
 Our learning went something like this
 
 \begin{itemize}
-    \item Hmm, don't put everything on stack, put it in $Box<T>$
-    \item Why can't we move the value? Oh the $Box<T>$ owns it...
-    \item But wait, what if the element is the end of the list?
-    \item Define an enum $Node<T>$ which can be inner element, tail, or nothing.
-    \item Null pointer optimization? Oh we understand, so redefine $Node<T>$ to
-          be an element or nothing.
-    \item Did we just reimplement the $Option<T>$? Yes we did...
-    \item Ok, now set the next as the previous head. What is this
-          \textbf{cannot move out of borrowed content}?
-    \item \textbf{mem::replace}? Sweet Python were are you...
-    \item $Option.take()$? That makes sense (Dunning-Kruger Peak of Mount Stupid)
-    \item Iterators, yeah we want to iterate over our list.
-    \item Lifetime?! How are we supposed to know how long this thing will live?!
-    \item Pff, easy, it's just syntactic sugar, why is it needed?
-    \item That's why it is needed... \emph{Fall down to Dunning-Kruger Valley of Despair}
+      \item Hmm, don't put everything on stack, put it in $Box<T>$
+      \item Why can't we move the value? Oh the $Box<T>$ owns it...
+      \item But wait, what if the element is the end of the list?
+      \item Define an enum $Node<T>$ which can be inner element, tail, or nothing.
+      \item Null pointer optimization? Oh we understand, so redefine $Node<T>$ to
+            be an element or nothing.
+      \item Did we just reimplement the $Option<T>$? Yes we did...
+      \item Ok, now set the next as the previous head. What is this
+            \textbf{cannot move out of borrowed content}?
+      \item \textbf{mem::replace}? Sweet Python where are you...
+      \item $Option.take()$? That makes sense (Dunning-Kruger Peak of Mount Stupid)
+      \item Iterators, yeah we want to iterate over our list.
+      \item Lifetime?! How are we supposed to know how long this thing will live?!
+      \item Pff, easy, it's just syntactic sugar, why is it needed?
+      \item That's why it is needed... \emph{Fall down to Dunning-Kruger Valley of Despair}
 \end{itemize}
 
 \subsection*{Implementing different kinds}
@@ -121,18 +121,172 @@ how to borrow their memory, we implemented these kinds of linked list and gained
 new knowledge:
 
 \begin{enumerate}
-    \item Linked List: Box is a heap allocation which owns the data
-    \item Immutable Linked List: Rc also owns the value but, it has a primitive
-          garbage collection principle of counting how many references are pointing
-          at it
-    \item Thread safe immutable Linked List: Arc is basically the same thing as
-          Rc, but it is atomic, which means it is safe to use in multithreaded environments
-    \item Doubly Linked List: RefCell, as we understood it, basically allows you
-          to apply borrow checkers rules in runtime, however if they are broken,
-          the program panics
+      \item Linked List: Box is a heap allocation which owns the data
+      \item Immutable Linked List: Rc also owns the value but, it has a primitive
+            garbage collection principle of counting how many references are pointing
+            at it
+      \item Thread safe immutable Linked List: Arc is basically the same thing as
+            Rc, but it is atomic, which means it is safe to use in multithreaded environments
+      \item Doubly Linked List: RefCell, as we understood it, basically allows you
+            to apply borrow checkers rules in runtime, however if they are broken,
+            the program panics
 \end{enumerate}
 
-\subsection*{Benchmarking}
+\section{Benchmarking}
+
+During the implementation of the linked lists we learned from various sources
+that linked lists, in majority of scenarios suck\cite{rustunofficialIntroductionLearning}.
+Vecs are faster and are easier to work with.
+
+We have two types of benchmarks, first show us why generally linked lists suck,
+and the second one is when they don't suck. To determine if they suck (or don't)
+they will be compared to a Vec in same scenario.
+
+\pagebreak
+\subsection*{Linked Lists Suck}
+
+In this table we can see how long it took to push 100000 integers into a Vec,\\
+std::collections::LinkedList, Linked List, Immutable Linked List, Thread Safe
+Linked List and Doubly Linked List.
+\begin{table}[!h]
+      \begin{center}
+            \caption{Push elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 104.36 µs \\
+                  Std LL          & 1.3043 ms \\
+                  LL              & 1.2673 ms \\
+                  Immutable LL    & 1.4542 ms \\
+                  Thread Safe LL  & 3.6213 ms \\
+                  DLL             & 2.5458 ms \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+In this table we can see how long it took to pop 100000 integers from a Vec,\\
+std::collections::LinkedList, Linked List, Immutable Linked List, Thread Safe
+Linked List and Doubly Linked List.
+\begin{table}[!h]
+      \begin{center}
+            \caption{Pop elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 17.773 µs \\
+                  Std LL          & 693.14 µs \\
+                  LL              & 663.92 µs \\
+                  Immutable LL    & 794.60 µs \\
+                  Thread Safe LL  & 2.7304 ms \\
+                  DLL             & 1.5427 ms \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+In this table we can see how long it took to get element in the middle of a Vec,
+Linked List, Immutable Linked List, Thread Safe Linked List with 100000 elements.
+Std::collections::LinkedList and our Doubly Linked List don't support this operation
+\begin{table}[!h]
+      \begin{center}
+            \caption{Pop elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 190.43 ps \\
+                  LL              & 102.73 µs \\
+                  Immutable LL    & 156.59 µs \\
+                  Thread Safe LL  & 149.29 µs \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+\pagebreak
+\subsection*{When Linked Lists don't suck}
+
+In this table we can see how long it took to push 100 $[u64; 10000]$ into a Vec,\\
+std::collections::LinkedList, Linked List, Immutable Linked List, Thread Safe
+Linked List and Doubly Linked List.
+\begin{table}[!h]
+      \begin{center}
+            \caption{Pop elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 537.76 µs \\
+                  Std LL          & 464.61 µs \\
+                  LL              & 474.34 µs \\
+                  Immutable LL    & 627.81 µs \\
+                  Thread Safe LL  & 782.17 µs \\
+                  DLL             & 1.1396 ms \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+In this table we can see how long it took to pop 100 $[u64; 10000]$ from a Vec,\\
+std::collections::LinkedList, Linked List, Immutable Linked List, Thread Safe
+Linked List and Doubly Linked List.
+\begin{table}[!h]
+      \begin{center}
+            \caption{Pop elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 656.30 µs \\
+                  Std LL          & 469.21 µs \\
+                  LL              & 455.28 µs \\
+                  Immutable LL    & 2.7239 µs \\
+                  Thread Safe LL  & 320.21 µs \\
+                  DLL             & 917.19 µs \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+In this table we can see how long it took to get element in the middle of a Vec,\\
+Linked List, Immutable Linked List, Thread Safe Linked List with 100
+$[u64; 10000]$ elements. Std::collections::LinkedList and our Doubly Linked List
+don't support this operation
+\begin{table}[!h]
+      \begin{center}
+            \caption{Pop elements}
+            \begin{tabular}{|c|c|}
+                  \hline
+                  Collection type & Time      \\
+                  \hline
+                  Vec             & 184.92 ps \\
+                  LL              & 27.667 ns \\
+                  Immutable LL    & 70.145 ns \\
+                  Thread Safe LL  & 70.208 ns \\
+                  \hline
+            \end{tabular}
+      \end{center}
+\end{table}
+
+\section{Conclusion}
+
+When we were choosing what to do for our project, we laughed at the suggestion
+of implementing a linked list. After a call with our tutors, in which they
+explained to us why linked lists in Rust aren't trivial we choose this topic
+thinking that they are just fooling us. Well after couple of weekends fighting
+with the borrow checker, we now understand why linked lists and Rusts safety
+don't mix well together.
+
+As we learned during the implementation, linked lists aren't that useful (except in some
+rare scenarios). And we showed benchmarks proving that.
+
+Thanks to this we learned, in more depth, how we can differently share references
+in more complex scenarios. Such as in doubly linked list, which contains many
+small cycles. Also we learned how to use criterion with more complicated benchmarks,
+and how to tune the benchmark environment for more accurate results.
 
 \bibliography{sources}
 \bibliographystyle{ieeetr}
